@@ -1,5 +1,6 @@
 package com.github.bakode.zoomvideosdk;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.getcapacitor.PermissionState;
@@ -9,6 +10,12 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
+import com.github.bakode.zoomvideosdk.zoom.MeetingActivity;
+import com.github.bakode.zoomvideosdk.zoom.ZoomErrorMsgs;
+import com.github.bakode.zoomvideosdk.zoom.ZoomOpts;
+
+import us.zoom.sdk.ZoomVideoSDK;
+import us.zoom.sdk.ZoomVideoSDKErrors;
 
 @CapacitorPlugin(
   name = "ZoomAndroid",
@@ -42,7 +49,6 @@ import com.getcapacitor.annotation.PermissionCallback;
 )
 public class ZoomAndroidPlugin extends Plugin {
   private static final String TAG = ZoomAndroidPlugin.class.getSimpleName();
-  private static final Integer REQ_VIDEO_AUDIO_CODE = 1010;
 
   @PluginMethod()
   public void tryJoinMeeting(PluginCall call) {
@@ -63,14 +69,33 @@ public class ZoomAndroidPlugin extends Plugin {
   }
 
   private void performJoinMeeting(PluginCall call) {
-    String appointmentToken = call.getString("appointmentToken", "");
-    String appointmentSessionName = call.getString("appointmentSessionName", "");
-    String appointmentSessionPassword = call.getString("appointmentSessionPassword", "");
-    String customerFullName = call.getString("customerFullName", "");
+    getActivity().runOnUiThread(() -> {
+      String appointmentToken = call.getString("appointmentToken", "");
+      String appointmentSessionName = call.getString("appointmentSessionName", "");
+      String appointmentSessionPassword = call.getString("appointmentSessionPassword", "");
+      String customerFullName = call.getString("customerFullName", "");
 
-    Log.d(TAG, appointmentToken);
-    Log.d(TAG, appointmentSessionName);
-    Log.d(TAG, appointmentSessionPassword);
-    Log.d(TAG, customerFullName);
+      ZoomVideoSDK instance = ZoomVideoSDK.getInstance();
+
+      int initZoomSDK = instance.initialize(
+        getActivity().getApplication().getApplicationContext(),
+        ZoomOpts.INSTANCE.zoomSDKParams()
+      );
+
+      if (initZoomSDK != ZoomVideoSDKErrors.Errors_Success) {
+        String errorMessage = ZoomErrorMsgs.INSTANCE.getMessageByCode(initZoomSDK);
+        call.reject(errorMessage);
+      }
+
+      String zoomSDKVersion = instance.getSDKVersion();
+      Log.d(TAG, "ZOOM VIDEO SDK CONNECTED WITH CURRENT VERSION: " + zoomSDKVersion);
+
+      Intent intent = new Intent(getActivity(), MeetingActivity.class);
+      intent.putExtra("appointmentToken", appointmentToken);
+      intent.putExtra("appointmentSessionName", appointmentSessionName);
+      intent.putExtra("appointmentSessionPassword", appointmentSessionPassword);
+      intent.putExtra("customerFullName", customerFullName);
+      getActivity().startActivity(intent);
+    });
   }
 }

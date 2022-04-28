@@ -4,4 +4,7 @@
     <string name="title_activity_main">ZoomVideoSDK Android</string>
     <string name="package_name">com.github.bakode.zoomvideosdk</string>
     <string name="custom_url_scheme">com.github.bakode.zoomvideosdk</string>
+    <string name="remote_user_name">Lorto Sumarto</string>
+  <string name="session_time_counting_down">00:00</string>
+  <string name="btn">btn</string>
 </resources>

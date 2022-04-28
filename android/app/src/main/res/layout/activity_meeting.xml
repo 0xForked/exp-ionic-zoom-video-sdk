@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".zoom.MeetingActivity">
+
+  <us.zoom.sdk.ZoomVideoSDKVideoView
+    android:id="@+id/primaryVideoView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:render_textureView="false"
+    android:visibility="gone">
+  </us.zoom.sdk.ZoomVideoSDKVideoView>
+
+  <!-- SECONDARY VIDEO CONTAINER -->
+  <LinearLayout
+    android:id="@+id/secondaryVideoContainer"
+    android:layout_width="120dp"
+    android:layout_height="160dp"
+    android:background="#E6E5E5"
+    android:layout_marginTop="148dp"
+    android:layout_marginEnd="28dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:orientation="vertical">
+    <us.zoom.sdk.ZoomVideoSDKVideoView
+      android:id="@+id/secondaryVideoView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:render_textureView="false"
+      android:visibility="gone">
+    </us.zoom.sdk.ZoomVideoSDKVideoView>
+  </LinearLayout>
+  <!--  SECONDARY VIDEO CONTAINER  -->
+
+  <!-- CURRENT MEETING INFO -->
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="64dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+    <TextView
+      android:id="@+id/remoteUserName"
+      android:textColor="#ffff"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="normal"
+      android:textSize="18sp"
+      android:text="@string/remote_user_name" />
+    <LinearLayout
+      android:background="@drawable/rounded_shape"
+      android:paddingHorizontal="12dp"
+      android:paddingVertical="4dp"
+      android:layout_marginTop="8dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+      <TextView
+        android:id="@+id/sessionCountingTime"
+        android:textColor="#ffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/session_time_counting_down" />
+    </LinearLayout>
+  </LinearLayout>
+  <!-- CURRENT MEETING INFO -->
+
+  <!-- FLOATING ACTION BUTTON -->
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabFinishActivity"
+    app:fabSize="mini"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_baseline_chevron_left"
+    android:contentDescription="@string/btn" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabMuteMicrophone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="32dp"
+    android:layout_marginEnd="42dp"
+    android:contentDescription="@string/btn"
+    app:fabSize="mini"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/fabDismissMeeting"
+    app:srcCompat="@drawable/ic_baseline_mic_none" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabDismissMeeting"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/btn"
+    app:fabSize="normal"
+    android:layout_marginBottom="54dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:srcCompat="@drawable/ic_baseline_call" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabSwitchCamera"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="32dp"
+    android:layout_marginStart="42dp"
+    android:contentDescription="@string/btn"
+    app:fabSize="mini"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/fabDismissMeeting"
+    app:srcCompat="@drawable/ic_baseline_loop" />
+  <!-- FLOATING ACTION BUTTON -->
+</androidx.constraintlayout.widget.ConstraintLayout>

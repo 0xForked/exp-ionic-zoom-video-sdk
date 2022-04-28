@@ -10,10 +10,13 @@ export class HomePage {
 
   constructor() {}
 
+  // ! ADD TOKEN
+  // ? GET TOKEN FROM ZOOM WEB SAMPLE
   async performEnterConsultationRoom() {
     zoomAndroid.tryJoinMeeting({
-      appointmentToken: 'qwe',
-      appointmentSessionName:'zxc',
+      // eslint-disable-next-line max-len
+      appointmentToken: '',
+      appointmentSessionName:'tesName123',
       customerFullName: 'Lorem Soparto'
     });
   }
