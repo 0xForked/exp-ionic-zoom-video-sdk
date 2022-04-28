@@ -1,20 +1,28 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <section class="ion-padding">
+    <img src="assets/image/starting.png" alt="starting-images">
+    <div class="information">
+      <ion-text>
+        <h5>Operator ready, starting soon</h5>
+      </ion-text>
+      <ion-text>
+        <p>Waiting for the  clinic response your request in 15 minutes you can minimize this screen and comeback anytime</p>
+      </ion-text>
+    </div>
+    <div class="permissions">
+      <div class="rounded">
+        <ion-icon name="videocam"></ion-icon>
+      </div>
+      <div class="rounded">
+        <ion-icon name="mic"></ion-icon>
+      </div>
+    </div>
+  </section>
 </ion-content>
+
+<ion-footer class="ion-no-border ion-padding">
+  <ion-button
+    expand="block"
+    class="with-text"
+  >Enter the Room</ion-button>
+</ion-footer>

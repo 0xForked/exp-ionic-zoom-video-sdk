@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "exp-ionic-zoom-video-sdk",
-	"webDir": "www",
+	"appId": "com.github.bakode.zoomvideosdk",
+	"appName": "ZoomVideoSDK Android",
+	"webDir": "dist",
 	"bundledWebRuntime": false
 }
