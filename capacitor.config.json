@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "exp-ionic-zoom-video-sdk",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -1,0 +1,7 @@
+{
+  "name": "exp-ionic-zoom-video-sdk",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
