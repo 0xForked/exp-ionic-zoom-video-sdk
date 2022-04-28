@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import zoomAndroid from '../../plugins/zoom-android.plugin';
 
 @Component({
   selector: 'app-home',
@@ -9,4 +10,11 @@ export class HomePage {
 
   constructor() {}
 
+  async performEnterConsultationRoom() {
+    zoomAndroid.tryJoinMeeting({
+      appointmentToken: 'qwe',
+      appointmentSessionName:'zxc',
+      customerFullName: 'Lorem Soparto'
+    });
+  }
 }
