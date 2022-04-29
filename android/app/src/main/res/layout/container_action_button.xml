@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:background="@drawable/rounded_action_button_container_background"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:paddingVertical="24dp"
+  android:gravity="center">
+  <View
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabSwitchCamera"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/btn"
+    android:backgroundTint="@color/white"
+    android:tint="@color/black"
+    app:srcCompat="@drawable/ic_baseline_loop" />
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabCameraStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/btn"
+    android:backgroundTint="@color/white"
+    android:tint="@color/black"
+    app:srcCompat="@drawable/ic_baseline_videocam"/>
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabMicrophoneStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/btn"
+    android:backgroundTint="@color/white"
+    android:tint="@color/black"
+    app:srcCompat="@drawable/ic_baseline_mic" />
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabDismissMeeting"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/btn"
+    android:backgroundTint="@color/red"
+    app:srcCompat="@drawable/ic_baseline_call" />
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+</LinearLayout>
