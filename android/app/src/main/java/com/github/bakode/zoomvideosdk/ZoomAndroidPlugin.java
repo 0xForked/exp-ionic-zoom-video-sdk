@@ -61,7 +61,7 @@ public class ZoomAndroidPlugin extends Plugin {
 
   @PermissionCallback
   private void onPermissionGranted(PluginCall call) {
-    if ((getPermissionState("camera") == PermissionState.GRANTED) && (getPermissionState("audio") == PermissionState.GRANTED) && (getPermissionState("bluetooth") == PermissionState.GRANTED)) {
+    if ((getPermissionState("camera") == PermissionState.GRANTED) && (getPermissionState("audio") == PermissionState.GRANTED) && (getPermissionState("storage") == PermissionState.GRANTED) && (getPermissionState("bluetooth") == PermissionState.GRANTED)) {
       performJoinMeeting(call);
     } else {
       call.reject("Permission is required to join consultation session");
