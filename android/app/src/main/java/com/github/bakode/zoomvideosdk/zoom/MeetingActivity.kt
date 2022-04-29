@@ -40,13 +40,10 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
         val appointmentSessionName: String = intent.getStringExtra("appointmentSessionName") ?: ""
         val appointmentSessionPassword: String = intent.getStringExtra("appointmentSessionPassword") ?: ""
         val customerFullName: String = intent.getStringExtra("customerFullName") ?: ""
-
-        // TODO: CLEAR LOG
-        Log.d(TAG, appointmentToken)
-        Log.d(TAG, appointmentSessionName)
-        Log.d(TAG, appointmentSessionPassword)
-        Log.d(TAG, customerFullName)
-        // TODO: CLEAR LOG
+        val enableCamera: Boolean = intent.getBooleanExtra("enableCamera", true)
+        val enableMicrophone: Boolean = intent.getBooleanExtra("enableMicrophone", true)
+        val appointmentSessionStartAt: Int = intent.getIntExtra("appointmentSessionStartAt", 0)
+        val appointmentSessionEndAt: Int = intent.getIntExtra("appointmentSessionEndAt", 0)
 
         this.zoomSDKInstance = ZoomVideoSDK.getInstance()
 
@@ -54,11 +51,16 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
             appointmentToken = appointmentToken,
             appointmentSessionName = appointmentSessionName,
             appointmentSessionPassword = appointmentSessionPassword,
-            customerFullName = customerFullName
+            customerFullName = customerFullName,
+            localVideoStatus = enableCamera
         )).let { session ->
             if (session == null) {
                 Log.d(TAG, "NO ZOOM SESSION")
                 return
+            } else {
+              this.setMicrophoneStatus(enableMicrophone)
+              this.setCameraStatus(enableCamera)
+              this.initCountingTime(appointmentSessionStartAt, appointmentSessionEndAt)
             }
         }
 
@@ -72,24 +74,6 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
     {
         super.onStart()
         this.initViewListener()
-    }
-
-    private fun initViewListener()
-    {
-        findViewById<FloatingActionButton>(R.id.fabFinishActivity)
-          .setOnClickListener { this.finish() }
-
-        findViewById<FloatingActionButton>(R.id.fabMuteMicrophone)
-          .setOnClickListener { view -> this.onMicrophoneMuted(view as FloatingActionButton) }
-
-        findViewById<FloatingActionButton>(R.id.fabDismissMeeting)
-          .setOnClickListener { this.finish() }
-
-        findViewById<FloatingActionButton>(R.id.fabSwitchCamera)
-          .setOnClickListener { this.onCameraSwitched() }
-
-        findViewById<View>(R.id.secondaryVideoContainer)
-          .setOnTouchListener(this)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -120,26 +104,97 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
         return true
     }
 
-    private fun onMicrophoneMuted(view: FloatingActionButton)
+    private fun initViewListener()
+    {
+      findViewById<FloatingActionButton>(R.id.fabSwitchCamera)
+        .setOnClickListener { this.onCameraSwitched() }
+
+      findViewById<FloatingActionButton>(R.id.fabCameraStatus)
+        .setOnClickListener { this.onChangeCameraStatus() }
+
+      findViewById<FloatingActionButton>(R.id.fabMicrophoneStatus)
+        .setOnClickListener { this.onChangeMicrophoneStatus() }
+
+      findViewById<FloatingActionButton>(R.id.fabDismissMeeting)
+        .setOnClickListener { this.finish() }
+
+      findViewById<View>(R.id.secondaryVideoContainer)
+        .setOnTouchListener(this)
+    }
+
+    private fun initCountingTime(startAt: Int, endAt: Int)
+    {
+      Log.d(TAG, startAt.toString())
+      Log.d(TAG, endAt.toString())
+    }
+
+    private fun onChangeMicrophoneStatus()
     {
         val customer = this.zoomSDKInstance.session.mySelf
 
         val isMuted = customer.audioStatus.isMuted
-        val audioHelper = this.zoomSDKInstance.audioHelper
-        if (!isMuted) audioHelper.muteAudio(customer)
-        else audioHelper.unMuteAudio(customer)
 
-        view.setImageDrawable(getMicrophoneStatusIcon(isMuted))
+        this.setMicrophoneStatus(isMuted)
+    }
+
+    private fun setMicrophoneStatus(status: Boolean)
+    {
+      if (status) {
+        this.zoomSDKInstance
+          .audioHelper
+          .unMuteAudio(this.zoomSDKInstance.session.mySelf)
+      } else {
+        this.zoomSDKInstance
+          .audioHelper
+          .muteAudio(this.zoomSDKInstance.session.mySelf)
+      }
+
+      findViewById<FloatingActionButton>(R.id.fabMicrophoneStatus)
+        .setImageDrawable(getMicrophoneStatusIcon(status))
     }
 
     private fun getMicrophoneStatusIcon(isMuted: Boolean): Drawable
     {
         val iconOn = ContextCompat.getDrawable(
-          this, R.drawable.ic_baseline_mic_none)
+          this, R.drawable.ic_baseline_mic)
         val iconOff = ContextCompat.getDrawable(
           this, R.drawable.ic_baseline_mic_off)
 
         return if (isMuted) iconOn as Drawable
+        else iconOff as Drawable
+    }
+
+    private fun onChangeCameraStatus()
+    {
+        val customer = this.zoomSDKInstance.session.mySelf
+
+        val isEnable = customer.videoStatus.isOn
+
+        this.setCameraStatus(!isEnable)
+    }
+
+    private fun setCameraStatus(status: Boolean)
+    {
+      if (status) {
+        this.zoomSDKInstance
+          .videoHelper.startVideo()
+      } else {
+        this.zoomSDKInstance
+          .videoHelper.stopVideo()
+      }
+
+      findViewById<FloatingActionButton>(R.id.fabCameraStatus)
+        .setImageDrawable(getCameraStatusIcon(status))
+    }
+
+    private fun getCameraStatusIcon(isEnabled: Boolean): Drawable
+    {
+        val iconOn = ContextCompat.getDrawable(
+          this, R.drawable.ic_baseline_videocam)
+        val iconOff = ContextCompat.getDrawable(
+          this, R.drawable.ic_baseline_videocam_off)
+
+        return if (isEnabled) iconOn as Drawable
         else iconOff as Drawable
     }
 
@@ -177,7 +232,7 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
     // TODO: Handle Error
     override fun onError(errorCode: Int)
     {
-      Log.d(TAG, "ON_ERROR $errorCode")
+      Log.d(TAG, "ON_ERROR ${ZoomErrorMsgs.getMessageByCode(errorCode)}")
     }
 
     // =============================================================================================

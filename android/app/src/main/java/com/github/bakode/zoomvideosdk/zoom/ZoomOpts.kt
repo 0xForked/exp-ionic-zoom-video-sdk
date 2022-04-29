@@ -9,19 +9,6 @@ object ZoomOpts {
   private val DEFAULT_MEMORY_MODE = ZoomVideoSDKRawDataMemoryMode
     .ZoomVideoSDKRawDataMemoryModeHeap
 
-  private val zoomAudioOpts: () -> ZoomVideoSDKAudioOption = {
-    ZoomVideoSDKAudioOption().apply {
-      this.connect = true
-      this.mute = false
-    }
-  }
-
-  private val zoomVideoOpts: () -> ZoomVideoSDKVideoOption = {
-    ZoomVideoSDKVideoOption().apply {
-      this.localVideoOn = true
-    }
-  }
-
   fun zoomSDKParams(): ZoomVideoSDKInitParams {
     return ZoomVideoSDKInitParams().apply {
       this.domain = WEB_DOMAIN
@@ -38,10 +25,16 @@ object ZoomOpts {
     appointmentSessionName: String,
     appointmentSessionPassword: String,
     customerFullName: String,
+    localVideoStatus: Boolean
   ): ZoomVideoSDKSessionContext {
     return ZoomVideoSDKSessionContext().apply {
-      this.audioOption = zoomAudioOpts()
-      this.videoOption = zoomVideoOpts()
+      this.audioOption = ZoomVideoSDKAudioOption().apply {
+        this.connect = true
+        this.mute = false
+      }
+      this.videoOption = ZoomVideoSDKVideoOption().apply {
+        this.localVideoOn = localVideoStatus
+      }
       this.sessionIdleTimeoutMins = sessionIdleTimeout
       this.token = appointmentToken
       this.sessionName = appointmentSessionName

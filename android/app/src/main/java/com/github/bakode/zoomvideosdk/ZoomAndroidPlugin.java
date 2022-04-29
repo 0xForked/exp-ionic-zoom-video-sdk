@@ -74,6 +74,10 @@ public class ZoomAndroidPlugin extends Plugin {
       String appointmentSessionName = call.getString("appointmentSessionName", "");
       String appointmentSessionPassword = call.getString("appointmentSessionPassword", "");
       String customerFullName = call.getString("customerFullName", "");
+      Boolean enableCamera = call.getBoolean("enableCamera", true);
+      Boolean enableMicrophone = call.getBoolean("enableMicrophone", true);
+      Integer appointmentSessionStartAt = call.getInt("appointmentSessionStartAt", 0);
+      Integer appointmentSessionEndAt = call.getInt("appointmentSessionEndAt", 0);
 
       ZoomVideoSDK instance = ZoomVideoSDK.getInstance();
 
@@ -95,6 +99,10 @@ public class ZoomAndroidPlugin extends Plugin {
       intent.putExtra("appointmentSessionName", appointmentSessionName);
       intent.putExtra("appointmentSessionPassword", appointmentSessionPassword);
       intent.putExtra("customerFullName", customerFullName);
+      intent.putExtra("enableCamera", enableCamera);
+      intent.putExtra("enableMicrophone", enableMicrophone);
+      intent.putExtra("appointmentSessionStartAt", appointmentSessionStartAt);
+      intent.putExtra("appointmentSessionEndAt", appointmentSessionEndAt);
       getActivity().startActivity(intent);
     });
   }

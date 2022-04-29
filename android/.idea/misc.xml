@@ -4,8 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_baseline_call.xml" value="0.173" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_mic_none.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_mic_off.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/divider.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/ic_baseline_videocam.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/ic_baseline_videocam_off.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/rounded_shape.xml" value="0.173" />
-        <entry key="app/src/main/res/layout/activity_meeting.xml" value="0.37083333333333335" />
+        <entry key="app/src/main/res/layout/activity_meeting.xml" value="0.33" />
       </map>
     </option>
   </component>
