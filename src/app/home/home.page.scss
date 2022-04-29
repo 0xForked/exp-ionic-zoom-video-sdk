@@ -42,10 +42,12 @@ ion-content {
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        &.disabled { background: #F1F7F7; }
         &:nth-child(1) { margin-right: 12px; }
         &:nth-child(2) { margin-left: 12px; }
         ion-icon {
           color: white;
+          &.disabled { color: #000000; }
           font-size: 21px;
         }
       }

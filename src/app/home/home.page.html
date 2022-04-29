@@ -10,11 +10,25 @@
       </ion-text>
     </div>
     <div class="permissions">
-      <div class="rounded">
-        <ion-icon name="videocam"></ion-icon>
+      <div 
+        class="rounded" 
+        [ngClass]="{ disabled: !enableCamera }"
+        (click)="enableCamera = !enableCamera"
+      >
+        <ion-icon 
+          name="{{ enableCamera ? 'videocam' : 'videocam-off' }}" 
+          [ngClass]="{ disabled: !enableCamera }"
+        ></ion-icon>
       </div>
-      <div class="rounded">
-        <ion-icon name="mic"></ion-icon>
+      <div 
+        class="rounded"
+        [ngClass]="{ disabled: !enableMicrophone }" 
+        (click)="enableMicrophone = !enableMicrophone"
+      >
+        <ion-icon 
+          name="{{ enableMicrophone ? 'mic' : 'mic-off' }}" 
+          [ngClass]="{ disabled: !enableMicrophone }"
+        ></ion-icon>
       </div>
     </div>
   </section>
