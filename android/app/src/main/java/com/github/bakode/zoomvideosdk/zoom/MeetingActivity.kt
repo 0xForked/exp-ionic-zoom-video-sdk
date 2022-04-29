@@ -26,8 +26,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import us.zoom.sdk.*
 import java.util.*
 
-class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKDelegate {
-
+class MeetingActivity :
+  AppCompatActivity(),
+  View.OnTouchListener,
+  ZoomVideoSDKDelegate
+{
     companion object
     {
         val TAG: String = MeetingActivity::class.simpleName as String
@@ -225,20 +228,20 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
 
     private fun setMicrophoneStatus(status: Boolean)
     {
-      if (status) {
-        this@MeetingActivity.zoomSDKInstance
-          .audioHelper
-          .unMuteAudio(this@MeetingActivity
-            .zoomSDKInstance.session.mySelf)
-      } else {
-        this@MeetingActivity.zoomSDKInstance
-          .audioHelper
-          .muteAudio(this@MeetingActivity
-            .zoomSDKInstance.session.mySelf)
-      }
+        if (status) {
+          this@MeetingActivity.zoomSDKInstance
+            .audioHelper
+            .unMuteAudio(this@MeetingActivity
+              .zoomSDKInstance.session.mySelf)
+        } else {
+          this@MeetingActivity.zoomSDKInstance
+            .audioHelper
+            .muteAudio(this@MeetingActivity
+              .zoomSDKInstance.session.mySelf)
+        }
 
-      findViewById<FloatingActionButton>(R.id.fabMicrophoneStatus)
-        .setImageDrawable(getMicrophoneStatusIcon(status))
+        findViewById<FloatingActionButton>(R.id.fabMicrophoneStatus)
+          .setImageDrawable(getMicrophoneStatusIcon(status))
     }
 
     private fun getMicrophoneStatusIcon(isMuted: Boolean): Drawable
@@ -298,22 +301,22 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
       userHelper: ZoomVideoSDKUserHelper?,
       userList: MutableList<ZoomVideoSDKUser>?
     ) {
-      if (userList != null) {
-          this@MeetingActivity.remoteUser = userList[0]
+        if (userList != null) {
+            this@MeetingActivity.remoteUser = userList[0]
 
-          this@MeetingActivity.setupVideoFrame()
+            this@MeetingActivity.setupVideoFrame()
 
-          this@MeetingActivity.toggleActionButtonContainer(true)
-          this@MeetingActivity.toggleMeetingInfoContainer(true)
+            this@MeetingActivity.toggleActionButtonContainer(true)
+            this@MeetingActivity.toggleMeetingInfoContainer(true)
 
-          findViewById<LinearLayout>(R.id.loadingContainer)
-            .visibility = View.GONE
+            findViewById<LinearLayout>(R.id.loadingContainer)
+              .visibility = View.GONE
 
-          this@MeetingActivity.countingSessionTime(
-            this@MeetingActivity.appointmentSessionStartAt,
-            this@MeetingActivity.appointmentSessionEndAt
-          )
-      }
+            this@MeetingActivity.countingSessionTime(
+              this@MeetingActivity.appointmentSessionStartAt,
+              this@MeetingActivity.appointmentSessionEndAt
+            )
+        }
     }
 
     private fun setupVideoFrame()
@@ -325,8 +328,10 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
         primaryVideoView.visibility = View.VISIBLE
         secondaryVideoView.visibility = View.VISIBLE
 
-        val originalRatio = ZoomVideoSDKVideoAspect.ZoomVideoSDKVideoAspect_Original
-        val fullFilledRatio = ZoomVideoSDKVideoAspect.ZoomVideoSDKVideoAspect_Full_Filled
+        val originalRatio = ZoomVideoSDKVideoAspect
+          .ZoomVideoSDKVideoAspect_Original
+        val fullFilledRatio = ZoomVideoSDKVideoAspect
+          .ZoomVideoSDKVideoAspect_Full_Filled
 
         this@MeetingActivity.remoteUser.videoCanvas
           .subscribe(primaryVideoView, originalRatio)
@@ -375,18 +380,18 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
     private fun toggleMeetingInfoContainer(show: Boolean)
     {
         val meetingInformationContainerTransition: Transition = Slide(Gravity.TOP)
-          . apply {
-            this.duration = 1000
-            this.addTarget(R.id.meetingInformationContainer)
-          }
+            .apply {
+                this.duration = 1000
+                this.addTarget(R.id.meetingInformationContainer)
+            }
 
         TransitionManager.beginDelayedTransition(
             findViewById(R.id.meetingActivityContainer),
             meetingInformationContainerTransition
         )
 
-        findViewById<View>(R.id.meetingInformationContainer).visibility =
-          if (show) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.meetingInformationContainer)
+          .visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun toggleActionButtonContainer(show: Boolean)
@@ -415,8 +420,8 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
             alertMessageContainerTransition
         )
 
-        findViewById<View>(R.id.alertMessageContainer).visibility =
-            if (show) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.alertMessageContainer)
+          .visibility = if (show) View.VISIBLE else View.GONE
     }
     // =============================================================================================
 
@@ -424,7 +429,7 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
     {
         super.onDestroy()
         this@MeetingActivity
-          .zoomSDKInstance
-          .leaveSession(false)
+            .zoomSDKInstance
+            .leaveSession(false)
     }
 }
