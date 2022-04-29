@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.github.bakode.zoomvideosdk.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import us.zoom.sdk.*
+import java.util.*
 
 class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKDelegate {
 
@@ -52,6 +54,7 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
             appointmentSessionName = appointmentSessionName,
             appointmentSessionPassword = appointmentSessionPassword,
             customerFullName = customerFullName,
+            localAudioStatus = !enableMicrophone,
             localVideoStatus = enableCamera
         )).let { session ->
             if (session == null) {
@@ -60,7 +63,7 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
             } else {
               this.setMicrophoneStatus(enableMicrophone)
               this.setCameraStatus(enableCamera)
-              this.initCountingTime(appointmentSessionStartAt, appointmentSessionEndAt)
+              this.countingSessionTime(appointmentSessionStartAt, appointmentSessionEndAt)
             }
         }
 
@@ -122,10 +125,27 @@ class MeetingActivity : AppCompatActivity(), View.OnTouchListener, ZoomVideoSDKD
         .setOnTouchListener(this)
     }
 
-    private fun initCountingTime(startAt: Int, endAt: Int)
+    private fun countingSessionTime(startAt: Int, endAt: Int)
     {
-      Log.d(TAG, startAt.toString())
-      Log.d(TAG, endAt.toString())
+        val startAtDate = Date(startAt.toLong() * 1000)
+        val endAtDate = Date(endAt.toLong() * 1000)
+        val diffInSeconds: Long = ((endAtDate.time - startAtDate.time))
+
+        object: CountDownTimer(diffInSeconds, 1000) {
+          override fun onTick(millisUntilFinished: Long) {
+            val minutes = (((millisUntilFinished/(1000*60)) % 60))
+              .toString().padStart(2, '0')
+            val seconds = ((millisUntilFinished / 1000) % 60)
+              .toString().padStart(2, '0')
+            val displayCountingTime = "$minutes : $seconds"
+
+            findViewById<TextView>(R.id.sessionCountingTime)
+              .text = displayCountingTime
+          }
+          override fun onFinish() {
+            Log.d(TAG, "FINISH_COUNTDOWN_DISMISS_THE_CALL")
+          }
+        }.start()
     }
 
     private fun onChangeMicrophoneStatus()

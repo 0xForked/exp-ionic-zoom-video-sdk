@@ -25,12 +25,13 @@ object ZoomOpts {
     appointmentSessionName: String,
     appointmentSessionPassword: String,
     customerFullName: String,
+    localAudioStatus: Boolean,
     localVideoStatus: Boolean
   ): ZoomVideoSDKSessionContext {
     return ZoomVideoSDKSessionContext().apply {
       this.audioOption = ZoomVideoSDKAudioOption().apply {
         this.connect = true
-        this.mute = false
+        this.mute = localAudioStatus
       }
       this.videoOption = ZoomVideoSDKVideoOption().apply {
         this.localVideoOn = localVideoStatus
